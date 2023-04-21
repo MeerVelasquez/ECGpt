@@ -1,33 +1,32 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-
-# Create your views here.
-#def index(request):
-  # return render(request, 'ecgpt/index.html')
-
-import openai
 from django.http import JsonResponse
-openai.api_key = "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"
-model_engine = "text-davinci-002"
+import openai
+
+openai.api_key = "#"
 
 
-def index(request):
+def home(request):
+    return render(request, 'ecgpt/index.html')
+
+
+def chatbot(request):
     if request.method == 'POST':
-        prompt = request.POST.get('question')
+        input_text = request.POST.get('input_text')
+
+        # Send the user's input to the GPT-3.5-Turbo API
         response = openai.Completion.create(
-            engine=model_engine,
-            prompt=prompt,
+            engine="davinci",
+            prompt=input_text,
             max_tokens=1024,
             n=1,
             stop=None,
             temperature=0.5,
         )
-        reply = response.choices[0].text.strip()
-        return render(request, 'ecgpt/index.html', {'question': prompt, 'answer': reply})
-    return render(request, 'ecgpt/index.html')
 
+        # Get the response text from the API response
+        response_text = response.choices[0].text.strip()
 
+        # Return the response as a JSON object
+        return JsonResponse({'response_text': response_text})
 
-
-
-
+    return render(request, 'ecgpt/chatbot.html')
