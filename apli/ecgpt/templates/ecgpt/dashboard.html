@@ -1,0 +1,129 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Chatbot with Django and GPT-3.5-Turbo API{% endblock %}</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <style>
+        .col-md-9 {
+            height: 100vh;
+        }
+    </style>
+    <link rel="icon" href="{% static 'ecgpt/img/chat_icon.png' %}" type="image/png">
+</head>
+
+<body>
+    <div class="d-flex">
+        <nav class="sidebar navbar-light bg-white  p-1 mr-3" style="height: 120vh;">
+            <ul class="navbar-nav  py-2 px-3 ">
+                <li class="nav-item text-center ">
+                    <a class="navbar-brand sticky-top " href="{% url 'home' %}">
+                        <img src="{% static 'ecgpt/img/chat_icon.png' %}" height="25px" ,weight="20px"></i>
+                        <span class="m-1"></span> ECGpt</a>
+                </li>
+                <li class="nav-item pt-3 ">
+                    <div class="input-group pb-2">
+                        <input type="text" class="form-control" placeholder=" Buscar">
+                    </div>
+                </li>
+                <li class="nav-item pl-5">
+                    <a class="nav-link" href="#"><ion-icon class="mr-3" name="home"></ion-icon> Home</a>
+                </li>
+                <li class="nav-item pl-5">
+                    <a class="nav-link" href="#"><ion-icon class="mr-3" name="filing"></ion-icon> History</a>
+                </li>
+                <li class="nav-item pl-5">
+                    <a class="nav-link" href="#"><ion-icon class="mr-3" name="people"></ion-icon> Patients</a>
+                </li>
+                <li class="nav-item  mt-auto ">
+                    <a class="nav-link" href="#"><ion-icon name="person"></ion-icon> Profile</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="container-fluid bg-light p-4 ">
+            <div class="row mt-3 ">
+                <div class="crounded rounded  mb-3 pt-2" >
+                    <div class="col-md-12">
+                        <h4>Dashboard</h4>
+                    </div>
+                    <div class="my-3 col-md-6">
+                        Pellentesque convallis accumsan suscipit aliquet eu diam quis nulla turpis.
+                        In mus massa lectus laoreet sed semper bibendum id. Iaculis purus malesuada porttitor aliquam
+                        pulvinar.
+                        <div class="column my-3">
+                            <button class="btn btn-primary " onclick="startChat()">Primary Action </button>
+                            <button class="btn btn-primary text-primary"
+                                style="background-color: white; border: 2px solid #0F62FE;">Other Action</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-2 ">
+                    <div class="col-md-3 mb-3 pb-1 ">
+                        <div class="card bg-primary text-white h-100 ">
+                            <div class="card-body p-4">
+                                <img class="center" src="{% static 'ecgpt/img/health_icon.png' %}" height="25px"
+                                    ,weight="25px">
+                                <h6 class="mb-0">Heart Rate</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3 pb-1 ">
+                        <div class="card bg-primary text-white h-100 ">
+                            <div class="card-body p-4">
+                                <img class="center" src="{% static 'ecgpt/img/health_icon.png' %}" height="25px"
+                                    ,weight="25px">
+                                <h6 class="mb-0">Blood Pressure</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3 pb-1 ">
+                        <div class="card bg-primary text-white h-100 ">
+                            <div class="card-body p-4">
+                                <img class="center" src="{% static 'ecgpt/img/health_icon.png' %}" height="25px"
+                                    ,weight="25px">
+                                <h6 class="mb-0">Glucosa Level</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 mb-3 pb-1 ">
+                        <div class="card bg-primary text-white h-100 ">
+                            <div class="card-body p-4">
+                                <img class="center" src="{% static 'ecgpt/img/health_icon.png' %}" height="25px"
+                                    ,weight="25px">
+                                <h6 class="mb-0">Blood Count</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
+                            Area Chart Example
+                        </div>
+                        <div class="card-body">
+                            <canvas class="chart" width="400" height="150"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
+                            Area Chart Example
+                        </div>
+                        <div class="card-body">
+                            <canvas class="chart" width="400" height="150"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+</body>

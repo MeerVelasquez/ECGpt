@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 import openai
 
-openai.api_key = "#"
+openai.api_key = "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"
 
 
 def home(request):
@@ -30,3 +30,6 @@ def chatbot(request):
         return JsonResponse({'response_text': response_text})
 
     return render(request, 'ecgpt/chatbot.html')
+
+def dashboard(request):
+    return render(request, 'ecgpt/dashboard.html')
