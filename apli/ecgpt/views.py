@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 import openai
 
-openai.api_key = "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"
+openai.api_key = "#"
 
 
 def home(request):
