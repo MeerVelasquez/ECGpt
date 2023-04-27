@@ -2,31 +2,29 @@ from django.shortcuts import render
 from django.http import JsonResponse
 import openai
 
+<<<<<<< Updated upstream
 openai.api_key = "#"
+model_engine = "text-davinci-002"
+=======
+openai.api_key = "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"
+>>>>>>> Stashed changes
 
 
-def home(request):
+def index(request):
     return render(request, 'ecgpt/index.html')
 
 
 def chatbot(request):
     if request.method == 'POST':
-        input_text = request.POST.get('input_text')
-
-        # Send the user's input to the GPT-3.5-Turbo API
+        prompt = request.POST.get('question')
         response = openai.Completion.create(
-            engine="davinci",
-            prompt=input_text,
+            engine=model_engine,
+            prompt=prompt,
             max_tokens=1024,
             n=1,
             stop=None,
             temperature=0.5,
         )
-
-        # Get the response text from the API response
-        response_text = response.choices[0].text.strip()
-
-        # Return the response as a JSON object
-        return JsonResponse({'response_text': response_text})
-
+        reply = response.choices[0].text.strip()
+        return render(request, 'ecgpt/chatbot.html', {'question': prompt, 'answer': reply})
     return render(request, 'ecgpt/chatbot.html')

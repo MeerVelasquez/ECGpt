@@ -1,59 +1,34 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>Chatbot with Django and GPT-3.5-Turbo API</title>
+    <meta charset="UTF-8">
+    <title>{% block title %}My Site{% endblock %}</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
 </head>
 
 <body>
-    <h1>Chatbot</h1>
-    <div id="chat-container">
-        <div id="chat-messages"></div>
-        <form id="chat-form">
+    <div class="rounded bg-light p-3 col-6 mx-5 my-3">
+
+        <form method="POST">
             {% csrf_token %}
-            <input type="text" name="input_text" id="input-text">
-            <button type="submit">Send</button>
+            <input type="text" class="col-4" name="question" placeholder="Ask a question" />
+            <button class="btn btn-success">Submit</button>
         </form>
+        {% if question %}
+        <p>You asked: {{ question }}</p>
+        {% endif %}
+        {% if answer %}
+        <div class="row justify-content-center">
+            <div class="col-6 p-3">
+                <textarea class="form-control" disabled>{{ answer }}</textarea>
+            </div>
+        </div>
+        {% endif %}
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            // Focus on the input field when the page is loaded
-            $('#input-text').focus();
-
-            // Send the user's input to the server when the form is submitted
-            $('#chat-form').submit(function (event) {
-                event.preventDefault();
-                var inputText = $('#input-text').val().trim();
-
-                if (inputText === '') {
-                    return false;
-                }
-
-                $('#chat-messages').append('<div class="user-message">' + inputText + '</div>');
-                $('#input-text').val('');
-
-                $.ajax({
-                    url: '/chatbot/',
-                    type: 'POST',
-                    data: {
-                        'input_text': inputText,
-                        'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
-                    },
-                    dataType: 'json',
-                    success: function (response) {
-                        var responseText = response.response_text;
-
-                        $('#chat-messages').append('<div class="bot-message">' + responseText + '</div>');
-                        $('#chat-container').scrollTop($('#chat-container')[0].scrollHeight);
-                    }
-                });
-
-                return false;
-            });
-        });
-    </script>
 </body>
 
 </html>
