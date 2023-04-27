@@ -2,12 +2,9 @@ from django.shortcuts import render
 from django.http import JsonResponse
 import openai
 
-<<<<<<< Updated upstream
+
 openai.api_key = "#"
 model_engine = "text-davinci-002"
-=======
-openai.api_key = "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"
->>>>>>> Stashed changes
 
 
 def index(request):
