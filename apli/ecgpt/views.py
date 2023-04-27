@@ -3,7 +3,7 @@ from django.http import JsonResponse
 import openai
 
 
-openai.api_key = "#"
+openai.api_key = "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"
 model_engine = "davinci"
 
 
