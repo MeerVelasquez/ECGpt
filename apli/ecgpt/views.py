@@ -1,5 +1,12 @@
+from json import dumps
+import json
 from django.shortcuts import render
 from django.http import JsonResponse
+from ecgpt.models import EcgData
+from django.http import HttpResponse
+from django.template import loader
+from django.db.models import Count
+from django.core import serializers
 import openai
 
 openai.api_key = "#"
@@ -32,4 +39,13 @@ def chatbot(request):
     return render(request, 'ecgpt/chatbot.html')
 
 def dashboard(request):
-    return render(request, 'ecgpt/dashboard.html')
+    queryset = EcgData.objects.all()
+    data = list(queryset.values())
+    json_data = json.dumps(data)
+    return render(request, 'ecgpt/dashboard.html', {'data': json_data})
+
+def patients(request):
+    info_patients = EcgData.objects.all().values()
+    excluded_column = 'diagnosis'
+    columns = [field.verbose_name for field in EcgData._meta.fields if field.name != excluded_column]
+    return render(request, 'ecgpt/patients.html', {'data': info_patients, 'columns': columns})

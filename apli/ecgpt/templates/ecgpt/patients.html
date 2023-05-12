@@ -1,0 +1,94 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Chatbot with Django and GPT-3.5-Turbo API{% endblock %}</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <style>
+        .col-md-9 {
+            height: 100vh;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="icon" href="{% static 'ecgpt/img/chat_icon.png' %}" type="image/png">
+
+</head>
+
+<body class="bg-light ">
+    <div class="d-flex">
+        <nav class="sidebar navbar-light bg-white p-1 mr-3 rounded " style="height: 120vh;">
+            <ul class="navbar-nav py-2 px-3 ">
+                <li class="nav-item text-center">
+                    <a class="navbar-brand sticky-top " href="{% url 'home' %}">
+                        <img src="{% static 'ecgpt/img/chat_icon.png' %}" height="25px" ,weight="20px"></i>
+                        <span class="m-1"></span> ECGpt</a>
+                </li>
+                <li class="nav-item pt-3 ">
+                    <div class="input-group pb-2">
+                        <input type="text" class="form-control" placeholder=" Buscar">
+                    </div>
+                </li>
+                <li class="nav-item pl-5">
+                    <a class="nav-link" href="#"><ion-icon class="mr-3" name="home"></ion-icon> Home</a>
+                </li>
+                <li class="nav-item pl-5">
+                    <a class="nav-link" href="#"><ion-icon class="mr-3" name="filing"></ion-icon> History</a>
+                </li>
+                <li class="nav-item pl-5">
+                    <a class="nav-link" href="{% url 'patients' %}"><ion-icon class="mr-3" name="people"></ion-icon>
+                        Patients</a>
+                </li>
+                <li class="nav-item  mt-auto ">
+                    <a class="nav-link" href="#"><ion-icon name="person"></ion-icon> Profile</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="container-fluid bg-light  ">
+            <h3 class="pt-4 px-5">List of the patients</h3>
+            <table class="m-4 px-5 table table-hover table-responsive">
+                <thead class="gap-2">
+                    <tr>
+                        {% for column in columns %}
+                        <th class="bg-info text-light text-nowrap" scope="col" style="text-transform: capitalize;">{{ column }}</th>
+                        {% endfor %}
+                        <!-- Agrega aquí más encabezados según tus datos -->
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for patient in data %}
+                    <tr class="gap-2">
+                        <td>{{ patient.id }}</td>
+                        <td>{{ patient.age }}</td>
+                        <td>{{ patient.sex }}</td>
+                        <td>{{ patient.height }}</td>
+                        <td>{{ patient.weight }}</td>
+                        <td>{{ patient.qrs_duration }}</td>
+                        <td>{{ patient.p_r_interval }}</td>
+                        <td>{{ patient.q_t_interval }}</td>
+                        <td>{{ patient.t_interval }}</td>
+                        <td>{{ patient.p_interval }}</td>
+                        <td>{{ patient.qrs }}</td>
+                        <td>{{ patient.t }}</td>
+                        <td>{{ patient.p }}</td>
+                        <td>{{ patient.qrst }}</td>
+                        <td>{{ patient.heart_rate }}</td>
+                        <td>{{ patient.q_wave }}</td>
+                        <td>{{ patient.r_wave }}</td>
+                        <td>{{ patient.s_wave }}</td>
+                        <td>{{ patient.label }}</td>
+                        <!-- Agrega aquí más columnas y datos según tus necesidades -->
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
+</body>
+
+</html>
