@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Test Model</title>
+</head>
+
+<body>
+    <h1>Test Model</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="input1">Input 1:</label>
+        <input type="text" name="input1" required><br>
+        <label for="input2">Input 2:</label>
+        <input type="text" name="input2" required><br>
+        <label for="input3">Input 3:</label>
+        <input type="text" name="input3" required><br>
+        <label for="input4">Input 4:</label>
+        <input type="text" name="input4" required><br>
+        <label for="input5">Input 5:</label>
+        <input type="text" name="input5" required><br>
+        <label for="input6">Input 6:</label>
+        <input type="text" name="input6" required><br>
+        <label for="input7">Input 7:</label>
+        <input type="text" name="input7" required><br>
+        <label for="input8">Input 8:</label>
+        <input type="text" name="input8" required><br>
+        <label for="input9">Input 9:</label>
+        <input type="text" name="input9" required><br>
+        <label for="input10">Input 10:</label>
+        <input type="text" name="input10" required><br>
+        <label for="input11">Input 11:</label>
+        <input type="text" name="input11" required><br>
+        <label for="input12">Input 12:</label>
+        <input type="text" name="input12" required><br>
+        <label for="input13">Input 13:</label>
+        <input type="text" name="input13" required><br>
+        <label for="input14">Input 14:</label>
+        <input type="text" name="input14" required><br>
+        <label for="input15">Input 15:</label>
+        <input type="text" name="input15" required><br>
+        <label for="input16">Input 16:</label>
+        <input type="text" name="input16" required><br>
+        <button type="submit">Submit</button>
+    </form>
+
+    {% if result %}
+    <p>Result: {{ result }}</p>
+    {% endif %}
+
+</body>
+
+</html>
