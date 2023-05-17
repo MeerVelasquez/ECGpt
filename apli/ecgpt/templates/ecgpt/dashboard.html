@@ -1,7 +1,7 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -14,14 +14,17 @@
             height: 100vh;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <link rel="icon" href="{% static 'ecgpt/img/chat_icon.png' %}" type="image/png">
+
 </head>
 
 <body>
     <div class="d-flex">
-        <nav class="sidebar navbar-light bg-white  p-1 mr-3" style="height: 120vh;">
-            <ul class="navbar-nav  py-2 px-3 ">
-                <li class="nav-item text-center ">
+        <nav class="sidebar navbar-light bg-white p-1 mr-3 rounded " style="height: 120vh;">
+            <ul class="navbar-nav py-2 px-3 ">
+                <li class="nav-item text-center">
                     <a class="navbar-brand sticky-top " href="{% url 'home' %}">
                         <img src="{% static 'ecgpt/img/chat_icon.png' %}" height="25px" ,weight="20px"></i>
                         <span class="m-1"></span> ECGpt</a>
@@ -38,7 +41,7 @@
                     <a class="nav-link" href="#"><ion-icon class="mr-3" name="filing"></ion-icon> History</a>
                 </li>
                 <li class="nav-item pl-5">
-                    <a class="nav-link" href="#"><ion-icon class="mr-3" name="people"></ion-icon> Patients</a>
+                    <a class="nav-link" href="{% url 'patients' %}"><ion-icon class="mr-3" name="people"></ion-icon> Patients</a>
                 </li>
                 <li class="nav-item  mt-auto ">
                     <a class="nav-link" href="#"><ion-icon name="person"></ion-icon> Profile</a>
@@ -49,67 +52,118 @@
             <div class="row mt-3 ">
                 <div class="crounded rounded  mb-3 pt-2">
                     <div class="col-md-12">
-                        <h4>Dashboard</h4>
+                        <h2>Dashboard</h2>
                     </div>
-                    <div class="my-3 col-md-6">
-                        Pellentesque convallis accumsan suscipit aliquet eu diam quis nulla turpis.
-                        In mus massa lectus laoreet sed semper bibendum id. Iaculis purus malesuada porttitor aliquam
-                        pulvinar.
-                        <div class="column my-3">
-                            <button class="btn btn-primary " onclick="startChat()">Primary Action </button>
-                            <button class="btn btn-primary text-primary"
-                                style="background-color: white; border: 2px solid #0F62FE;">Other Action</button>
-                        </div>
+                    <div class="my-3 ">
+                        A dashboard of data on types of arrhythmia in patients provides an organized and visually
+                        appealing display of information
+                        related to the different types of arrhythmia observed in patients. This dashboard aims to
+                        provide valuable insights and trends
+                        related to arrhythmia cases.
+
                     </div>
                 </div>
-                <div class="row mb-2 ">
-                    <div class="col-md-3 mb-3 pb-1 ">
-                        <div class="card bg-primary text-white h-100 ">
-                            <div class="card-body p-4">
-                                <img class="center" src="{% static 'ecgpt/img/health_icon.png' %}" height="25px"
-                                    ,weight="25px">
-                                <h6 class="mb-0">Heart Rate</h6>
+
+                <!-- Content Row -->
+                <div class="row">
+                    <!-- Total od Patients Card  -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2"
+                            style="border-left-width: 5px; border-left-color:crimson">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                            Total of patients</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800 " id="total_patients"></div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3 mb-3 pb-1 ">
-                        <div class="card bg-primary text-white h-100 ">
-                            <div class="card-body p-4">
-                                <img class="center" src="{% static 'ecgpt/img/health_icon.png' %}" height="25px"
-                                    ,weight="25px">
-                                <h6 class="mb-0">Blood Pressure</h6>
+                    <!-- Types of Arrithmia Card -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-success shadow h-100 py-2"
+                            style="border-left-width: 5px; border-left-color:rgb(11, 179, 11)">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                            Types of Arrithmia</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="types_arrt"></div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3 mb-3 pb-1 ">
-                        <div class="card bg-primary text-white h-100 ">
-                            <div class="card-body p-4">
-                                <img class="center" src="{% static 'ecgpt/img/health_icon.png' %}" height="25px"
-                                    ,weight="25px">
-                                <h6 class="mb-0">Glucosa Level</h6>
+
+                    <!-- Porcentage of sick people Card  -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card rounded border-left-info shadow h-100 py-2"
+                            style="border-left-width: 5px; border-left-color:aqua">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Patients
+                                            with a type of Arrithmia
+                                        </div>
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col-auto">
+                                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"
+                                                    id="percent_iss"> </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="progress progress-sm mr-2">
+                                                    <div class="progress-bar bg-info" role="progressbar"
+                                                        style="width: 50%" aria-valuenow="50" aria-valuemin="0"
+                                                        aria-valuemax="100"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3 mb-3 pb-1 ">
-                        <div class="card bg-primary text-white h-100 ">
-                            <div class="card-body p-4">
-                                <img class="center" src="{% static 'ecgpt/img/health_icon.png' %}" height="25px"
-                                    ,weight="25px">
-                                <h6 class="mb-0">Blood Count</h6>
+
+                    <!-- Porcentage Requests Card  -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card shadow h-100 py-2" style="border-left-width: 5px ;border-left-color:gold;">
+                            <div class="card-body ">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                            Percentage of seniors patients</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="seniors_size"></div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-comments fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <div class="card h-100">
                         <div class="card-header">
                             <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
-                            Area Chart Example
+                            Age of the Patients
                         </div>
                         <div class="card-body">
-                            <canvas class="chart" width="400" height="150"></canvas>
+                            <canvas id="pieChart" width="400" height="200"></canvas>
                         </div>
                     </div>
                 </div>
@@ -117,13 +171,283 @@
                     <div class="card h-100">
                         <div class="card-header">
                             <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
-                            Area Chart Example
+                            Types of Arrithmias
                         </div>
                         <div class="card-body">
-                            <canvas class="chart" width="400" height="150"></canvas>
+                            <canvas id="chart" width="400" height="150"></canvas>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="row rounded-2 bg-light">
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-header ">
+                            <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
+                            Sex of the Patients
+                        </div>
+                        <div class="card-body row">
+                            <div class="col-md-6 ">
+                                <canvas id="chart_women" width="250" height="350"></canvas>
+                            </div>
+                            <div class="col-md-6 ">
+                                <canvas id="chart_men" width="250" height="350"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 ">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <span class="me-2"><i class="bi bi-bar-chart-fill"></i></span>
+                            Percentage of patients with arritmia
+                        </div>
+                        <div class="card-body">
+                            <canvas id="chart_normal" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script src="https://cdn.jsdelivr.net/npm/chart.js@latest/dist/Chart.min.js"></script>
             <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
 </body>
+
+</html>
+
+<script>
+    //Obtain the data from the models
+    var ctx = document.getElementById('chart').getContext('2d');
+    var Data = JSON.parse('{{ data|safe }}');
+
+    //Get the stadistics
+    types_arr = []
+    counts = []
+    for (let index = 0; index < Data.length; index++) {
+        var val = Data[index].label;
+        if (!types_arr.includes(val)) {
+            types_arr.push(val);
+        }
+        if (counts[val]) {
+            counts[val] += 1;
+        } else {
+            counts[val] = 1;
+        }
+    }
+
+    var seniorData = Data.filter(function (item) {
+        return item.age >= 60;
+    });
+
+    // Show the info of the stadistics
+    total_patients = document.getElementById('total_patients')
+    total_patients.textContent = Object.keys(Data).length
+
+    types_arrt = document.getElementById('types_arrt')
+    types_arrt.textContent = types_arr.length
+
+    porcent_iss = document.getElementById('percent_iss')
+    porcent = (((Object(Data).length) - (counts['Normal'])) / Object(Data).length * 100).toFixed(2);
+    porcent_iss.textContent = porcent + ' %'
+
+    seniors_size = document.getElementById('seniors_size')
+    seniors = ((Object(seniorData).length) / (Object(Data).length) * 100).toFixed(2)
+    seniors_size.textContent = seniors + ' %'
+
+
+    //Create a pie chart of the age
+    var babyData = Data.filter(function (item) {
+        return item.age <= 2;
+    });
+
+    var childData = Data.filter(function (item) {
+        return item.age <= 12;
+    });
+
+    var teenData = Data.filter(function (item) {
+        return item.age <= 40;
+    });
+    var adultData = Data.filter(function (item) {
+        return item.age <= 60;
+    });
+
+    const age_counts = [Object(babyData).length, Object(childData).length, Object(teenData).length, Object(adultData).length, Object(seniorData).length]
+
+    // Get the canvas element
+    const canvas = document.getElementById('pieChart');
+
+    const labels = ['Baby', 'Child', 'Teenager', 'Adult', 'Senior'];
+
+    // Create the chart
+    new Chart(canvas, {
+        type: 'pie',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: age_counts,
+                backgroundColor: ['purple', 'blue', 'green', 'orange', 'red'],
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+
+    //Create a bar diagram of the type of arrthimias and their count
+    const graph = document.getElementById("chart");
+
+    const data = {
+        labels: types_arr,
+        datasets: [{
+            label: "Individuals with the disease",
+            data: Object.values(counts),
+            backgroundColor: 'rgba(9, 129, 176, 0.7)'
+        }]
+    };
+
+    const options = {
+        scales: {
+            xAxes: [{
+                display: false
+            }]
+        }
+    };
+
+    const config = {
+        type: 'bar',
+        data: data,
+        options: options
+    };
+
+    new Chart(graph, config);
+
+    //Create two charts to  show sex porcentage
+    var maleData = Data.filter(function (item) {
+        return item.sex == '0';
+    });
+    var femaleData = Data.filter(function (item) {
+        return item.sex == '1';
+    });
+    maleData_v = ((Object(maleData).length) / (Object(Data).length) * 100).toFixed(0)
+    console.log(Object(maleData).length);
+    // Get the canvas element
+    var chart_men = document.getElementById('chart_men').getContext('2d');
+
+    // Define the data for the chart
+    var data_men = {
+        labels: ['Male', ''],
+        datasets: [{
+            data: [Object(maleData).length, (Object(Data).length - Object(maleData).length)],
+            backgroundColor: ['red', '#fff']
+        }]
+    };
+
+    // Create the doughnut chart
+    var chart_men = new Chart(chart_men, {
+        type: 'doughnut',
+        data: data_men,
+        options: {
+            cutoutPercentage: 75,
+            rotation: 1.5 * Math.PI,
+            circumference: 2 * Math.PI,
+            plugins: {
+                datalabels: {
+                    color: '#e6e6e6',
+                    font: {
+                        size: '40'
+                    },
+                }
+            }
+        }
+    });
+
+    const chart_w = document.getElementById('chart_women')
+    chart_women_v = ((Object(femaleData).length) / (Object(Data).length) * 100).toFixed(0)
+
+    var data_women = {
+        labels: ['Female', ''],
+        datasets: [{
+            data: [Object(femaleData).length, (Object(Data).length - Object(femaleData).length)],
+            backgroundColor: ['blue', '#ffffff']
+        }]
+    };
+
+    // Create the doughnut chart
+    var chart_women = new Chart(chart_w, {
+        type: 'doughnut',
+        data: data_women,
+        options: {
+            responsive: true,
+            cutoutPercentage: 75,
+            rotation: -1.5 * Math.PI, // Rota el anillo para que el segmento comience en la posición superior
+            circumference: 2 * Math.PI, // Especifica la circunferencia completa del anillo
+            // Personalización adicional
+            plugins: {
+                datalabels: {
+                    color: '#e6e6e6', // Color del texto
+                    font: {
+                        size: '40' // Tamaño del texto
+                    },
+                }
+            }
+        }
+    });
+
+    //Porcentage of patients clasification
+    var normalData = Data.filter(function (item) {
+        return item.diagnosis == '1';
+    });
+    var diseaseData = Data.filter(function (item) {
+        return item.diagnosis != '1';
+    });
+    normalData_v = ((Object(normalData ).length) / (Object(Data).length) * 100).toFixed(0)
+    diseaseData_v = ((Object(diseaseData).length) / (Object(Data).length) * 100).toFixed(0)
+    // Get the canvas element
+    var chart_normal = document.getElementById('chart_normal').getContext('2d');
+
+    // Create the chart
+    new Chart(chart_normal, {
+        type: 'pie',
+        data: {
+            labels: ['Healthy', 'With a disease'],
+            datasets: [{
+                data: [normalData_v,diseaseData_v],
+                backgroundColor: ['purple', 'orange'],
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+
+    const centerDoughnutPlugin = {
+        id: "annotateDoughnutCenter",
+        beforeDraw: (chart) => {
+            let width = chart.width;
+            let height = chart.height;
+            let ctx = chart.ctx;
+
+            ctx.restore();
+            let fontSize = (height / 114).toFixed(2);
+            ctx.font = fontSize + "em sans-serif";
+            ctx.textBaseline = "middle";
+
+            let text;
+            if (chart.canvas.id === "chart_women") {
+                text = chart_women_v + " %";
+            } else if (chart.canvas.id === "chart_men") {
+                text = maleData_v + " %";
+            } else {
+                text = ''
+            }
+            let textX = Math.round((width - ctx.measureText(text).width) / 2);
+            let textY = height / 2 + height * 0.1;
+
+            ctx.fillText(text, textX, textY);
+            ctx.save();
+        },
+    };
+
+    Chart.plugins.register(centerDoughnutPlugin);
+
+
+</script>

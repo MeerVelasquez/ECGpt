@@ -31,7 +31,7 @@ label_names = {
     16: "Others"
 }
 
-def home(request):
+def index(request):
     return render(request, 'ecgpt/index.html')
 
 
