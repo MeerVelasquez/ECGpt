@@ -21,7 +21,7 @@
       align-items: center;
       padding: 24px 80px;
       gap: 48px;
-      width: 1440px;
+      width: 100%;
       height: 60px;
       background: #697077;
       flex: none;
@@ -64,7 +64,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'dashboard' %}" >Dashboard</a>
+              <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
             </li>
             <li class="nav-item">
               <a class="nav-link active text-primary" aria-current="page" href="#">SignUp</a>
@@ -120,6 +120,7 @@
 
     </div>
   </div>
+  <footer class="color-custom center">ECG's chat @ 2023. All rights reserved.</footer>
   <script>
     function startChat() {
       window.location.href = '/chatbot/';
