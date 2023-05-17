@@ -37,25 +37,19 @@ def home(request):
 
 def chatbot(request):
     if request.method == 'POST':
-        input_text = request.POST.get('input_text')
-
-        # Send the user's input to the GPT-3.5-Turbo API
+        prompt = request.POST.get('question')
         response = openai.Completion.create(
-            engine="davinci",
-            prompt=input_text,
+            engine=model_engine,
+            prompt=prompt,
             max_tokens=1024,
             n=1,
             stop=None,
             temperature=0.5,
         )
-
-        # Get the response text from the API response
-        response_text = response.choices[0].text.strip()
-
-        # Return the response as a JSON object
-        return JsonResponse({'response_text': response_text})
-
+        reply = response.choices[0].text.strip()
+        return render(request, 'ecgpt/chatbot.html', {'question': prompt, 'answer': reply})
     return render(request, 'ecgpt/chatbot.html')
+
 
 def dashboard(request):
     queryset = EcgData.objects.all()
@@ -63,12 +57,13 @@ def dashboard(request):
     json_data = json.dumps(data)
     return render(request, 'ecgpt/dashboard.html', {'data': json_data})
 
+
 def patients(request):
     info_patients = EcgData.objects.all().values()
     excluded_column = 'diagnosis'
-    columns = [field.verbose_name for field in EcgData._meta.fields if field.name != excluded_column]
+    columns = [
+        field.verbose_name for field in EcgData._meta.fields if field.name != excluded_column]
     return render(request, 'ecgpt/patients.html', {'data': info_patients, 'columns': columns})
-
 
 def testModelo(request):
     if request.method == 'POST':
