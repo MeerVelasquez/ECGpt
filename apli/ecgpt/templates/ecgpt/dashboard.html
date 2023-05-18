@@ -5,7 +5,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Chatbot with Django and GPT-3.5-Turbo API{% endblock %}</title>
+    <title>{% block title %}Dashboard{% endblock %}</title>
     {% load bootstrap5 %}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
@@ -35,7 +35,10 @@
                     </div>
                 </li>
                 <li class="nav-item pl-5">
-                    <a class="nav-link" href="#"><ion-icon class="mr-3" name="home"></ion-icon> Home</a>
+                    <a class="nav-link" href="{% url 'home' %}"><ion-icon class="mr-3" name="home"></ion-icon> Home</a>
+                </li>
+                <li class="nav-item pl-5 fw-bold">
+                    <a class="nav-link" href="{% url 'dashboard' %}"><ion-icon name="pie"></ion-icon> Dashboard</a>
                 </li>
                 <li class="nav-item pl-5">
                     <a class="nav-link" href="#"><ion-icon class="mr-3" name="filing"></ion-icon> History</a>

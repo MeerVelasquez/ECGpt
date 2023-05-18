@@ -5,7 +5,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Chatbot with Django and GPT-3.5-Turbo API{% endblock %}</title>
+    <title>{% block title %}Patients{% endblock %}</title>
     {% load bootstrap5 %}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
@@ -35,12 +35,15 @@
                     </div>
                 </li>
                 <li class="nav-item pl-5">
-                    <a class="nav-link" href="#"><ion-icon class="mr-3" name="home"></ion-icon> Home</a>
+                    <a class="nav-link" href="{% url 'home' %}"><ion-icon class="mr-3" name="home"></ion-icon> Home</a>
+                </li>
+                <li class="nav-item pl-5">
+                    <a class="nav-link" href="{% url 'dashboard' %}"><ion-icon name="pie"></ion-icon> Dashboard</a>
                 </li>
                 <li class="nav-item pl-5">
                     <a class="nav-link" href="#"><ion-icon class="mr-3" name="filing"></ion-icon> History</a>
                 </li>
-                <li class="nav-item pl-5">
+                <li class="nav-item pl-5 fw-bold">
                     <a class="nav-link" href="{% url 'patients' %}"><ion-icon class="mr-3" name="people"></ion-icon>
                         Patients</a>
                 </li>
@@ -57,11 +60,11 @@
                         {% for column in columns %}
                         <th class="bg-info text-light text-nowrap" scope="col" style="text-transform: capitalize;">{{ column }}</th>
                         {% endfor %}
-                        <!-- Agrega aquí más encabezados según tus datos -->
+                        
                     </tr>
                 </thead>
                 <tbody>
-                    {% for patient in data %}
+                    {% for patient in page_obj %}
                     <tr class="gap-2">
                         <td>{{ patient.id }}</td>
                         <td>{{ patient.age }}</td>
@@ -82,11 +85,13 @@
                         <td>{{ patient.r_wave }}</td>
                         <td>{{ patient.s_wave }}</td>
                         <td>{{ patient.label }}</td>
-                        <!-- Agrega aquí más columnas y datos según tus necesidades -->
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
+            <div class="pagination justify-content-center">
+                {% bootstrap_pagination page_obj %}
+            </div>
         </div>
         <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
 </body>

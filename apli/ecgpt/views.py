@@ -1,7 +1,7 @@
 from json import dumps
 import json
 from django.shortcuts import render
-from django.http import JsonResponse
+from django.core.paginator import Paginator
 from ecgpt.models import EcgData
 import joblib
 import openai
@@ -9,7 +9,8 @@ import numpy as np
 
 openai.api_key = "#"
 model_engine = "davinci"
-model = joblib.load('ecgpt/modelos/ecgpt/dt.joblib')
+models = joblib.load('ecgpt/modelos/ecgpt/models.joblib')
+
 
 
 label_names = {
@@ -63,10 +64,14 @@ def patients(request):
     excluded_column = 'diagnosis'
     columns = [
         field.verbose_name for field in EcgData._meta.fields if field.name != excluded_column]
-    return render(request, 'ecgpt/patients.html', {'data': info_patients, 'columns': columns})
+    paginator = Paginator(info_patients, 10)  # Muestra 10 pacientes por página
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'ecgpt/patients.html', {'data': info_patients, 'columns': columns, 'page_obj': page_obj})
 
 def testModelo(request):
     if request.method == 'POST':
+        selected_model = request.POST.get('model')
         input1 = float(request.POST.get('input1'))
         input2 = float(request.POST.get('input2'))
         input3 = float(request.POST.get('input3'))
@@ -88,21 +93,60 @@ def testModelo(request):
         inputs = np.array([input1, input2, input3, input4, input5, input6, input7, input8,
                           input9, input10, input11, input12, input13, input14, input15, input16]).reshape(1, -1)
         print(inputs)
-
+        print(selected_model)
+        
         # Load the trained model and use it to make a prediction
-        result = model.predict(inputs)
-        print(result)
+        if selected_model == 'dtc_model':
+            model1 = models[0]  
+            result = model1.predict(inputs)
+            model_name = 'Decision Tree Classifier'
+            if result[0] in label_names:
+                result = label_names[result[0]]
+            else:
+                result = "Unknown"
+            
+        elif selected_model == 'svm_model':
+            model2 = models[1]  
+            result = model2.predict(inputs)
+            model_name = 'Support vector machine'
+            if result[0] in label_names:
+                result = label_names[result[0]]
+            else:
+                result = "Unknown"
+            # Resto del código para model2...
+        elif selected_model == 'rf_model':
+            model3 = models[2]  
+            result = model3.predict(inputs)
+            model_name = 'Random Forest'
+            if result[0] in label_names:
+                result = label_names[result[0]]
+            else:
+                result = "Unknown"
 
-        if result[0] in label_names:
-            result = label_names[result[0]]
-        else:
-            result = "Unknown"
+        Ecg_data_new = EcgData()
+        Ecg_data_new.age = input1
+        Ecg_data_new.sex = input2
+        Ecg_data_new.height = 60
+        Ecg_data_new.weight = input3
+        Ecg_data_new.qrs_duration = input4
+        Ecg_data_new.p_r_interval = input5
+        Ecg_data_new.q_t_interval = input6
+        Ecg_data_new.t_interval = input7
+        Ecg_data_new.p_interval = input8
+        Ecg_data_new.qrs = input9
+        Ecg_data_new.t = input10
+        Ecg_data_new.p = input11
+        Ecg_data_new.qrst = input12
+        Ecg_data_new.heart_rate = input13
+        Ecg_data_new.q_wave = input14
+        Ecg_data_new.r_wave = input15
+        Ecg_data_new.s_wave = input16
+        Ecg_data_new.label = result
 
-        print(result)
+        Ecg_data_new.save()
 
-        # Render the result on the same page
-        return render(request, 'ecgpt/testModelo.html', {'result': result})
-
+        return render(request, 'ecgpt/testModelo.html', {'result': result, 'model_name': model_name})
+    # Render the initial form
     return render(request, 'ecgpt/testModelo.html', {})
 
 
