@@ -78,18 +78,19 @@
       </div>
     </nav>
   </header>
-  <div class="rounded bg-light p-3 ">
-    <div class="container my-5 mx-5">
-      <div class="row">
+  <div class="rounded bg-light p-3 d-flex justify-content-center bg-info">
+    <div class="container my-5 mx-5 ">
+      <div class="row  ">
         <div class="col-md-6">
           <img src="{% static 'ecgpt/img/landing_img.png' %}" class="img-fluid" alt="Landing_img">
         </div>
         <div class="col-md-6">
           <h1 class="mb-4"><strong>Welcome to the Arrhythmia Detection Platform!</strong></h1>
-          <div class="mt-5 mb-4">Our chat tool provides a quick diagnosis of type of arritmia for your patients. Our system uses advanced technology to ask specific
+          <div class="mt-5 mb-4">Our diagnostic tool provides a quick diagnosis of type of arritmia for your patients.
+            Our system uses advanced technology to ask specific
             questions and gather detailed information about their symptoms, allowing us to
             provide you with an accurate diagnosis.</div>
-          <button class="btn btn-primary " onclick="startChat()">Start Chat</button>
+          <button class="btn btn-primary " onclick="location.href='#services'">Learn more</button>
         </div>
       </div>
     </div>
@@ -120,26 +121,30 @@
       </div>
     </div>
   </div>
-  <div class="rounded bg-light p-5">
-    <div class="container  m-auto">
-      <div class="row d-flex justify-content-between">
-        <div class="col-md-6 mt-5 pt-3 ">
-          <h1 class="mb-4 text-center"><strong>Our services!</strong></h1>
-          <div class="mt-5 mb-4">
-            <ul class="list-group rounded p-4">
-              <li class="list-group-item"><i class="icon ion-md-pie"></i> Our user-friendly dashboard provides a centralized hub for monitoring and analyzing arrhythmia-related data.</li>
-              <li class="list-group-item"><i class="icon ion-md-contacts"></i> Gain access to a comprehensive patient list management system.</li>
-              <li class="list-group-item"><i class="icon ion-ios-stats"></i> One of our standout features is our advanced prediction capability.</li>
-            </ul>
-            
+  <section id="services">
+    <div class="rounded bg-light p-4">
+      <div class="container m-auto">
+        <div class="row d-flex justify-content-between">
+          <div class="col-md-6 mt-5 pt-3  ">
+            <h1 class="mb-4 text-center"><strong>Our services!</strong></h1>
+            <div class="mt-5 mb-2">
+              <ul class="list-group rounded p-4">
+                <li class="list-group-item"><i class="icon ion-md-pie"></i> Our user-friendly dashboard provides a
+                  centralized hub for monitoring and analyzing arrhythmia-related data.</li>
+                <li class="list-group-item"><i class="icon ion-md-contacts"></i> Gain access to a comprehensive patient
+                  list management system.</li>
+                <li class="list-group-item"><i class="icon ion-ios-stats"></i> One of our standout features is our
+                  advanced prediction capability.</li>
+              </ul>
+            </div>
           </div>
-        </div>
-        <div class="col-md-6">
-          <img src="{% static 'ecgpt/img/Visual data.png' %}" class="img-fluid h-75" alt="Landing_img">
+          <div class="col-md-6">
+            <img src="{% static 'ecgpt/img/Visual data.png' %}" class="img-fluid h-75" alt="Landing_img">
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
   </div>
   <div class="rounded p-5 my-3 row">
     <div class="col-md-6 mx-auto text-center ">
@@ -170,9 +175,6 @@
   </div>
   <footer class="color-custom center">ECG's chat @ 2023. All rights reserved.</footer>
   <script>
-    function startChat() {
-      window.location.href = '/chatbot/';
-    }
     function TestModels() {
       window.location.href = '/testModelo/';
     }

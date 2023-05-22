@@ -64,7 +64,7 @@ def patients(request):
     excluded_column = 'diagnosis'
     columns = [
         field.verbose_name for field in EcgData._meta.fields if field.name != excluded_column]
-    paginator = Paginator(info_patients, 10)  # Muestra 10 pacientes por página
+    paginator = Paginator(info_patients, 15)  # Muestra 10 pacientes por página
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, 'ecgpt/patients.html', {'data': info_patients, 'columns': columns, 'page_obj': page_obj})
