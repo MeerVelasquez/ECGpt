@@ -1,2 +1,2 @@
 # ECGpt
-Herramienta de ayuda diagnostica de enfermedades cardiacas con ayuda del analisis de la IA de ChatGPT. 
+Herramienta de ayuda diagnostica para la predicción y clasificación de tipos de arritmia en pacientes de las zonas rurales. 
